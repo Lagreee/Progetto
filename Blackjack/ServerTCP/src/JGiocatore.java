@@ -37,10 +37,14 @@ public class JGiocatore {
         Mano.add(Carta);
     }
 
-    int PuntiInMano(){
+    int PuntiInMano() {
         int punti = 0;
         for (String carta : Mano) {
-            punti += Integer.parseInt(carta.split("-")[0]);
+            int cardValue = Integer.parseInt(carta.split("-")[0]);
+            if (cardValue >= 10)
+                punti += 10;
+            else
+                punti += cardValue;
         }
         return punti;
     }

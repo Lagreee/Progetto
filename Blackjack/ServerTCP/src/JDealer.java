@@ -1,20 +1,24 @@
 import java.util.ArrayList;
 import java.util.List;
 
-public class JDealer {  
+public class JDealer {
     List<String> Mano = new ArrayList<String>();
 
-    public JDealer(){
+    public JDealer() {
     }
 
-    void AddCarta(String Carta){
+    void AddCarta(String Carta) {
         Mano.add(Carta);
     }
 
-    int PuntiInMano(){
+    int PuntiInMano() {
         int punti = 0;
         for (String carta : Mano) {
-            punti += Integer.parseInt(carta.split("-")[0]);
+            int cardValue = Integer.parseInt(carta.split("-")[0]);
+            if (cardValue >= 10)
+                punti += 10;
+            else
+                punti += cardValue;
         }
         return punti;
     }
