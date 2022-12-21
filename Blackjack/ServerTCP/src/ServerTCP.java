@@ -8,7 +8,10 @@ public class ServerTCP {
         ServerSocket serverSocket = new ServerSocket(PORT);
         Connessioni connessioni = new Connessioni(serverSocket);
         
-        ThreadWaitConnessioni x = new ThreadWaitConnessioni(serverSocket, connessioni);
-        x.start();
+        ThreadWaitConnection ConnectionManager = new ThreadWaitConnection(serverSocket, connessioni);
+        ConnectionManager.start();
+
+        GameManager gameManager = new GameManager(connessioni);
+        gameManager.startGame();        
     }
 }

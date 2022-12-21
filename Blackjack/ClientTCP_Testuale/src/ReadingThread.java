@@ -13,16 +13,17 @@ public class ReadingThread extends Thread {
     public void run() {
         while (!flags.getFlagEnd()) {
             try {
-                if(inputBuffer.ready()){
+                //if(inputBuffer.ready()){
                     String s = inputBuffer.readLine();
                     System.out.println(s);
 
                     if (s.equals("forceEnd")) {
                         flags.setFlagEnd(false);
                     }
-                }
+                //}
             } catch (IOException e) {
-                e.printStackTrace();
+                System.out.println("il server si è disconnesso");
+                flags.setFlagEnd(false);
                 break;
             }
 

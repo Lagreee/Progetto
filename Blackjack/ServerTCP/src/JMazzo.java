@@ -29,10 +29,10 @@ public class JMazzo {
         Mazzo.clear();
         for (int j = 0; j < 2; j++) {
             for (int i = 1; i <= 13; i++) {
-                Mazzo.add(i+";Cuori");
-                Mazzo.add(i+";Quadri");
-                Mazzo.add(i+";Fiori");
-                Mazzo.add(i+";Picche");
+                Mazzo.add(i+"-Cuori");
+                Mazzo.add(i+"-Quadri");
+                Mazzo.add(i+"-Fiori");
+                Mazzo.add(i+"-Picche");
             }
         }
         shuffle();

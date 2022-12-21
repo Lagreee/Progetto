@@ -5,6 +5,7 @@ import java.util.List;
 public class Connessioni {
     ServerSocket serverSocket;
     List<JConnect> ListaConnessioni = new ArrayList<JConnect>();
+    int numClient = 0;
 
     public Connessioni(ServerSocket sIn){
         serverSocket = sIn;
@@ -18,15 +19,17 @@ public class Connessioni {
         ListaConnessioni.add(new JConnect(id, socket));
     }
 
+    void addClient(Socket socket){
+        ListaConnessioni.add(new JConnect("Client"+numClient++, socket));
+    }
+
     void BroadcastMsg(String senderId, String msg){
+        System.out.println("Broadcast Message from " + senderId);
         for (JConnect jConnect : ListaConnessioni) {
-            System.out.print("Trying to sent ["+ msg +"] to " + jConnect.getId() +" (" + jConnect.socket + ") - ");
             if (!jConnect.getId().equals(senderId)){
                 jConnect.SendMsg(msg);
-                System.out.println("[Inviato]");
+                System.out.println("Sent ["+ msg +"] to (" + jConnect.id + ")");
             }
-            else
-                System.out.println("[Non inviato]");
         }
     }
 
