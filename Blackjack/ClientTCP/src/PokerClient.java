@@ -17,16 +17,8 @@ public class PokerClient {
         InetAddress addr = InetAddress.getByName(null);
         System.out.println("addr = " + addr);
         Socket socket = new Socket(addr, 8080);
-        
-        //Presentati:
-        String nameString = "";
-        while(nameString == "" || nameString == "0" | nameString == "END"){
-            System.out.println("Nome [Non può essere vuoto, 0 o END]:");
-            nameString = scan.nextLine();
-        }
     
         try {
-            
             //Print Informazioni Connessione
             System.out.println("socket = " + socket);
 
@@ -35,52 +27,15 @@ public class PokerClient {
             PrintWriter TCP_Out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(socket.getOutputStream())),true);
 
             ReadingThread ThreadLettura = new ReadingThread(TCP_in, flags);
-            ThreadLettura.start();            
-
-            //Primo Messaggio ->
-            TCP_Out.println("Name:" + nameString);
-            
-            System.out.println("Sintassi Messaggio: [Destinatario(0->Broadcast, END->Disconnettiti)];[Messaggio(non vuoto)]");
+            ThreadLettura.start();
             
             //Continua a inviare messaggi fino a quando il messaggio non è "END"
-            Boolean valid = false;
-            String[] Strings = new String[0];
             String outString = "";
-            String destString = "";
 
-            while (!destString.equals("END") && flags.getFlagEnd() == false) {
-                while (!valid) {
-                    outString = scan.nextLine();
-                    Strings = outString.split(";");
-                    valid = true;
-
-                    if (Strings.length != 2) {
-                        valid = false;
-                    }else{
-                        if (Strings[1].equals(""))
-                            valid = false;
-                    }
-                    
-
-                    if(!valid){
-                        System.out.println("Formato messaggio errato.[Destinatario(0->Broadcast, END->Disconnettiti)];[Messaggio(non vuoto)]");
-                    }
-                }
-
-                destString = Strings[0];
-                outString = Strings[1];
-
-                if(destString.equals("END")){
-                    TCP_Out.println(destString + ";0");
-                    flags.setFlagEnd(true);
-                }
-                else{
-                    //Invia il messaggio
-                    System.out.println("Inviato!");
-                    TCP_Out.println(destString + ";" +outString);
-                }
-                
-                valid = false;            
+            while (!outString.equals("END") && flags.getFlagEnd() == false) {
+                outString = scan.nextLine();
+                System.out.println("Inviato!");
+                TCP_Out.println(outString);         
             }
         } finally {
             

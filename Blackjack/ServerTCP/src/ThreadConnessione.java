@@ -26,6 +26,7 @@ public class ThreadConnessione extends Thread {
             
             //Leggo il nome del Client
             inString = in.readLine();
+            System.out.println(inString);
             ClientName = inString.split(":")[1];
 
             //Registro il client nelle connessioni

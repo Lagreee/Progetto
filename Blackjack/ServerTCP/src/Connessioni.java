@@ -20,7 +20,7 @@ public class Connessioni {
 
     void BroadcastMsg(String senderId, String msg){
         for (JConnect jConnect : ListaConnessioni) {
-            System.out.print("Trying to send ["+ msg +"] to " + jConnect.socket + " - ");
+            System.out.print("Trying to sent ["+ msg +"] to " + jConnect.getId() +" (" + jConnect.socket + ") - ");
             if (!jConnect.getId().equals(senderId)){
                 jConnect.SendMsg(msg);
                 System.out.println("[Inviato]");
