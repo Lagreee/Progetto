@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameManager {
-    Connessioni connessioni;
+    Old_Connessioni connessioni;
     List<JGiocatore> ListaGiocatori = new ArrayList<JGiocatore>();
     JDealer dealer = new JDealer();
     JMazzo deck = new JMazzo();
@@ -10,7 +10,7 @@ public class GameManager {
     Boolean gameInProgress;
     final int TIMER_WAIT_GAME_SECONDS = 15;
 
-    GameManager(Connessioni connessioni) {
+    GameManager(Old_Connessioni connessioni) {
         this.connessioni = connessioni;
     }
 
@@ -28,7 +28,7 @@ public class GameManager {
         System.out.println("Game Started!");
 
         for (JConnect jConnect : connessioni.ListaConnessioni) {
-            ListaGiocatori.add(new JGiocatore(jConnect, 100, ListaGiocatori.size() + 1, jConnect.id));
+            ListaGiocatori.add(new JGiocatore(jConnect));
             System.out.println("Player Adedd!");
         }
 
@@ -40,7 +40,7 @@ public class GameManager {
                 for (JGiocatore player : ListaGiocatori) {
                     String carta = deck.PescaCarta();
                     player.AddCarta(carta);
-                    connessioni.BroadcastMsg("Server", "add;" + player.name + ";" + carta);
+                    connessioni.BroadcastMsg("Server", "add;" + player.getName() + ";" + carta);
                 }
             }
             
@@ -52,10 +52,10 @@ public class GameManager {
                     
                     String carta = deck.PescaCarta();
                     player.AddCarta(carta);
-                    connessioni.BroadcastMsg("Server", "add;" + player.name + ";" + carta);
+                    connessioni.BroadcastMsg("Server", "add;" + player.getName() + ";" + carta);
                     
                     if (player.isBust()) {
-                        connessioni.BroadcastMsg("Server", "bust;" + player.name );
+                        connessioni.BroadcastMsg("Server", "bust;" + player.getName() );
                         // Player has gone over 21 and loses
                         break;
                     }
@@ -90,9 +90,9 @@ public class GameManager {
     private void displayResults(List<JGiocatore> winners) {
         for (JGiocatore jGiocatore : ListaGiocatori) {
             if (winners.contains(jGiocatore)) {
-                connessioni.BroadcastMsg("Server", "winner;" + jGiocatore.name);       
+                connessioni.BroadcastMsg("Server", "winner;" + jGiocatore.getName());       
             }else{
-                connessioni.BroadcastMsg("Server", "lose;" + jGiocatore.name); 
+                connessioni.BroadcastMsg("Server", "lose;" + jGiocatore.getName()); 
             }
         
         }

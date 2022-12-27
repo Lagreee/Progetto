@@ -2,12 +2,12 @@ import java.net.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Connessioni {
+public class Old_Connessioni {
     ServerSocket serverSocket;
     List<JConnect> ListaConnessioni = new ArrayList<JConnect>();
     int numClient = 0;
 
-    public Connessioni(ServerSocket sIn){
+    public Old_Connessioni(ServerSocket sIn){
         serverSocket = sIn;
     }
     
@@ -21,6 +21,7 @@ public class Connessioni {
 
     void addClient(Socket socket){
         ListaConnessioni.add(new JConnect("Client"+numClient++, socket));
+        ConnectionManager.getInstance().AddClient(new JConnect("Client"+numClient++, socket));
     }
 
     void BroadcastMsg(String senderId, String msg){
@@ -34,13 +35,6 @@ public class Connessioni {
     }
 
     void removeConnectionByID(String id){
-        /*
-        for (JConnect jConnect : ListaConnessioni) {
-            if(jConnect.getId().equals(id)){
-                ListaConnessioni.remove(jConnect);
-            }
-        }
-        */
         for (int i = 0; i < ListaConnessioni.size(); i++) {
             if (ListaConnessioni.get(i).getId().equals(id)) {
                 ListaConnessioni.remove(ListaConnessioni.get(i));

@@ -1,12 +1,12 @@
 import java.net.*;
 
 public class ThreadWaitConnection extends Thread {
-    Connessioni connessioni;
-    ServerSocket serverSocket;
 
-    public ThreadWaitConnection(ServerSocket serverSocket, Connessioni connessioni){
+    ServerSocket serverSocket;
+    int numClient = 0;
+
+    public ThreadWaitConnection(ServerSocket serverSocket){
         this.serverSocket = serverSocket;
-        this.connessioni = connessioni;
     }
 
     @Override
@@ -16,13 +16,11 @@ public class ThreadWaitConnection extends Thread {
                 //Rimani in ascolto di un client
                 System.out.println("Started waiting on: " + serverSocket);
                 Socket socket = serverSocket.accept();
-                
+            
                 System.out.println("Connection accepted: "+ socket);
-                connessioni.addClient(socket);
-                /*
-                ThreadConnessione t = new ThreadConnessione(socket, connessioni);
-                t.start();
-                 */
+                //Aggiungi il client al Connection Manager
+                ConnectionManager.getInstance().AddClient(new JConnect("Client"+numClient++, socket));
+                
             } catch(Exception e){e.printStackTrace();}
             finally{}
         }

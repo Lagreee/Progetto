@@ -1,0 +1,18 @@
+Dec 27, 2022 6:36:11 PM JTavolo AddGiocatore
+INFO: Giocatore [Client0] aggiunto al tavolo in posizione (0)
+Dec 27, 2022 6:36:44 PM JTavolo AddGiocatore
+INFO: Giocatore [Client1] aggiunto al tavolo in posizione (1)
+Dec 27, 2022 6:37:02 PM JTavolo AddGiocatore
+INFO: Giocatore [Client2] aggiunto al tavolo in posizione (2)
+Dec 27, 2022 6:37:45 PM JTavolo RemoveGiocatore
+INFO: Giocatore [Thread-6] rimosso dal tavolo in posizione (1)
+Dec 27, 2022 6:38:00 PM JTavolo AddGiocatore
+INFO: Giocatore [Client1] aggiunto al tavolo in posizione (1)
+Dec 27, 2022 6:38:08 PM JTavolo RemoveGiocatore
+INFO: Giocatore [Thread-9] rimosso dal tavolo in posizione (1)
+Dec 27, 2022 6:38:14 PM JTavolo RemoveGiocatore
+INFO: Giocatore [Thread-5] rimosso dal tavolo in posizione (0)
+Dec 27, 2022 6:38:18 PM JTavolo AddGiocatore
+INFO: Giocatore [Client1] aggiunto al tavolo in posizione (0)
+Dec 27, 2022 6:38:22 PM JTavolo AddGiocatore
+INFO: Giocatore [Client0] aggiunto al tavolo in posizione (1)

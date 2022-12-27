@@ -4,17 +4,16 @@ import java.util.List;
 
 public class JGiocatore {  
     JConnect connessioneClient;
-    int posto; //per sapere che client è "seduto" dove
-    float fish; //quanti soldi ha
-    String name;
+    boolean isReady = false;
 
     List<String> Mano = new ArrayList<String>();
+    
+    public void setReady(boolean b){
+        isReady = b;
+    }
 
-    public JGiocatore(JConnect connessioneClient, float fish, int posto, String name){
-        this.name = name;
+    public JGiocatore(JConnect connessioneClient){
         this.connessioneClient = connessioneClient;
-        this.fish = fish;
-        this.posto = posto;
     }
 
     public void println(String messaggio){
@@ -71,5 +70,9 @@ public class JGiocatore {
             isBust = true;
 
         return isBust;
+    }
+
+    public String getName() {
+        return connessioneClient.id;
     }
 }

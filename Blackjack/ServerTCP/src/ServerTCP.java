@@ -6,12 +6,13 @@ public class ServerTCP {
     {
         final int PORT = 8080;
         ServerSocket serverSocket = new ServerSocket(PORT);
-        Connessioni connessioni = new Connessioni(serverSocket);
         
-        ThreadWaitConnection ConnectionManager = new ThreadWaitConnection(serverSocket, connessioni);
-        ConnectionManager.start();
-
-        GameManager gameManager = new GameManager(connessioni);
-        gameManager.startGame();        
+        ConnectionManager.getInstance().AddTavolo("Tavolo1");
+        ConnectionManager.getInstance().AddTavolo("Tavolo2");
+        ConnectionManager.getInstance().AddTavolo("Tavolo3");
+        
+        ThreadWaitConnection ThreadAspettaConnessioni = new ThreadWaitConnection(serverSocket);
+        ThreadAspettaConnessioni.start();
+   
     }
 }

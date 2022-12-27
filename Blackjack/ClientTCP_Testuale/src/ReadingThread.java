@@ -17,8 +17,10 @@ public class ReadingThread extends Thread {
                     String s = inputBuffer.readLine();
                     System.out.println(s);
 
-                    if (s.equals("forceEnd")) {
-                        flags.setFlagEnd(false);
+                    if (s != null) {
+                        if (s.equals("forceEnd")) {
+                            flags.setFlagEnd(false);
+                        }
                     }
                 //}
             } catch (IOException e) {
@@ -26,10 +28,6 @@ public class ReadingThread extends Thread {
                 flags.setFlagEnd(false);
                 break;
             }
-
-            try {
-                sleep(100);
-            } catch (InterruptedException e) {}
         }
     }
 

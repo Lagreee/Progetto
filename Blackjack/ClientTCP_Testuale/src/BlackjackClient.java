@@ -3,7 +3,7 @@ import java.util.Random;
 import java.util.Scanner;
 import java.io.*;
 
-public class PokerClient {
+public class BlackjackClient {
 
     public static String ClientName = "Client";
 
