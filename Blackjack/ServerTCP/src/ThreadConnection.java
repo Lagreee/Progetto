@@ -9,6 +9,13 @@ public class ThreadConnection extends Thread {
     JTavolo tavolo;
     boolean isActive = true;
 
+    final String HELP_STRING =  "I metodi disponibili sono:"+
+                                "\n - 'getInfoTavoli' -> Ritorna le informazione relative al numero di giocatori presenti ai tavoli"+
+                                "\n - 'getInfoTavoliCmp' -> Ritorna le informazione relative al numero di giocatori presenti ai tavoli"+
+                                "\n - 'getTableNameList' -> Ritorna le informazione relative ai nomi dei tavoli"+
+                                "\n - 'connectToTable', Args[0] = 'nometavolo' -> Prova a connetterti al tavolo desiderato"+
+                                "\n - 'quit' -> Disconnetti il client";
+
     public ThreadConnection(JConnect connessioneClient) {
         this.connessioneClient = connessioneClient;
     }
@@ -24,10 +31,7 @@ public class ThreadConnection extends Thread {
         String command;  // command
         List<String> arguments = new ArrayList<String>();
 
-        out.println("I metodi disponibili sono:"+
-                                    "\n - 'getInfoTavoli' -> Ritorna le informazione relative al numero di giocatori presenti ai tavoli"+
-                                    "\n - 'connectToTable', Args[0] = 'nometavolo' -> Prova a connetterti al tavolo desiderato"+
-                                    "\n - 'quit' -> Disconnetti il client");
+        out.println(HELP_STRING);
 
         while (isActive) {            
             try {
@@ -45,7 +49,11 @@ public class ThreadConnection extends Thread {
                     case "getInfoTavoli":
                         out.println(ConnectionManager.getInstance().getInfoTavoli());
                         break;
-                        
+                    
+                    case "getInfoTavoliCmp":
+                        out.println(ConnectionManager.getInstance().getInfoTavoliCmp());
+                        break;
+                    
                     case "getTableNameList":
                         out.println(ConnectionManager.getInstance().getTableNameList());
                         break;
@@ -68,10 +76,7 @@ public class ThreadConnection extends Thread {
                         break;
                 
                     case "help":
-                        out.println("I metodi disponibili sono:"+
-                                    "\n - 'getInfoTavoli' -> Ritorna le informazione relative al numero di giocatori presenti ai tavoli"+
-                                    "\n - 'connectToTable', Args[0] = 'nometavolo' -> Prova a connetterti al tavolo desiderato"+
-                                    "\n - 'quit' -> Disconnetti il client");
+                        out.println(HELP_STRING);
                         break;
                     
                     default:

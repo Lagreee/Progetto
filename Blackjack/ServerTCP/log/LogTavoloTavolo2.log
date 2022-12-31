@@ -1,0 +1,60 @@
+Dec 31, 2022 6:52:28 PM JTavolo AddGiocatore
+INFO: Giocatore [Client0] aggiunto al tavolo in posizione (0)
+Dec 31, 2022 6:52:35 PM JTavolo run
+INFO: Starting the game...
+Dec 31, 2022 6:52:35 PM JTavolo run
+INFO: The game started with these players: [Client0(Posto 1)]
+Dec 31, 2022 6:52:40 PM JTavolo run
+INFO: The game is over
+Dec 31, 2022 6:52:41 PM JTavolo run
+INFO: Starting the game...
+Dec 31, 2022 6:52:41 PM JTavolo run
+INFO: The game did't start because at the end of the timer there 0 players active
+Dec 31, 2022 6:53:08 PM JTavolo AddGiocatore
+INFO: Giocatore [Client1] aggiunto al tavolo in posizione (1)
+Dec 31, 2022 6:53:24 PM JTavolo run
+INFO: Starting the game...
+Dec 31, 2022 6:53:24 PM JTavolo run
+INFO: The game started with these players: [Client0(Posto 1), Client1(Posto 2)]
+Dec 31, 2022 6:53:42 PM JTavolo run
+INFO: Starting the game...
+Dec 31, 2022 6:53:42 PM JTavolo run
+INFO: The game did't start because at the end of the timer there 0 players active
+Dec 31, 2022 6:53:50 PM JTavolo run
+INFO: The game is over
+Dec 31, 2022 6:54:44 PM JTavolo run
+INFO: Starting the game...
+Dec 31, 2022 6:54:44 PM JTavolo run
+INFO: The game did't start because at the end of the timer there 0 players active
+Dec 31, 2022 6:54:52 PM JTavolo run
+INFO: Starting the game...
+Dec 31, 2022 6:54:52 PM JTavolo run
+INFO: The game started with these players: [Client0(Posto 1), Client1(Posto 2)]
+Dec 31, 2022 6:55:45 PM JTavolo run
+INFO: Starting the game...
+Dec 31, 2022 6:55:45 PM JTavolo run
+INFO: The game did't start because at the end of the timer there 0 players active
+Dec 31, 2022 6:56:47 PM JTavolo run
+INFO: Starting the game...
+Dec 31, 2022 6:56:47 PM JTavolo run
+INFO: The game did't start because at the end of the timer there 0 players active
+Dec 31, 2022 6:57:49 PM JTavolo run
+INFO: Starting the game...
+Dec 31, 2022 6:57:49 PM JTavolo run
+INFO: The game did't start because at the end of the timer there 0 players active
+Dec 31, 2022 6:58:49 PM JTavolo run
+INFO: The game is over
+Dec 31, 2022 6:58:50 PM JTavolo run
+INFO: Starting the game...
+Dec 31, 2022 6:58:50 PM JTavolo run
+INFO: The game did't start because at the end of the timer there 0 players active
+Dec 31, 2022 6:58:59 PM JTavolo RemoveGiocatore
+INFO: Giocatore [Thread-6] rimosso dal tavolo in posizione (1)
+Dec 31, 2022 6:59:15 PM JTavolo run
+INFO: Starting the game...
+Dec 31, 2022 6:59:15 PM JTavolo run
+INFO: The game started with these players: [Client0(Posto 1)]
+Dec 31, 2022 6:59:25 PM JTavolo run
+INFO: The game is over
+Dec 31, 2022 6:59:33 PM JTavolo RemoveGiocatore
+INFO: Giocatore [Thread-4] rimosso dal tavolo in posizione (0)

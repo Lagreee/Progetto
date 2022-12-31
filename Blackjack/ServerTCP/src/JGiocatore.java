@@ -4,16 +4,14 @@ import java.util.List;
 
 public class JGiocatore {  
     JConnect connessioneClient;
-    boolean isReady = false;
-
     List<String> Mano = new ArrayList<String>();
-    
-    public void setReady(boolean b){
-        isReady = b;
-    }
 
     public JGiocatore(JConnect connessioneClient){
         this.connessioneClient = connessioneClient;
+    }
+
+    public void ClearMano() {
+        Mano.clear();
     }
 
     public void println(String messaggio){

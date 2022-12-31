@@ -57,7 +57,9 @@ public class ConnectionManager {
         
         if (getTableNameList() != null) {
             if (!getTableNameList().contains(nomeTavolo)) {
-                ListaTavoli.add(new JTavolo(nomeTavolo));
+                JTavolo newTavolo = new JTavolo(nomeTavolo);
+                ListaTavoli.add(newTavolo);
+                newTavolo.start();
                 logger.info("Aggiunto il tavolo [" + nomeTavolo + "]");
             }
             else{
@@ -78,6 +80,14 @@ public class ConnectionManager {
         String risposta = "";
         for (JTavolo tavolo : ListaTavoli) {
             risposta += tavolo.GetInfoTavolo() + "\n";
+        }
+        return risposta;
+    }
+
+    public String getInfoTavoliCmp() {
+        String risposta = "";
+        for (JTavolo tavolo : ListaTavoli) {
+            risposta += tavolo.GetInfoTavoloCmp() + "\n";
         }
         return risposta;
     }
@@ -122,6 +132,5 @@ public class ConnectionManager {
 
         logger.info("Client ["+ tc.connessioneClient.getId()+"] ha chiuso la connessione");
     }
-
     
 }

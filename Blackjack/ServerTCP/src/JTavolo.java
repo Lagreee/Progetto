@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
 public class JTavolo extends Thread {
+    final int TEMPO_TIMER = 60;
     final int MAX_GIOCATORI = 7;
     String nomeTavolo;
     boolean isInGame = false;
@@ -30,6 +31,77 @@ public class JTavolo extends Thread {
         } catch (SecurityException | IOException e) {
             e.printStackTrace();
         }  
+    }
+
+    @Override
+    public void run() {
+        //Loop di gioco
+        while (true) { 
+            boolean allPlayersReady = false;
+            int timer = TEMPO_TIMER;
+
+            //Aspetta 1m o che tutti i giocatori siano pronti
+            while (!allPlayersReady && timer > -1) {
+                
+                // Se ci non ci sono giocatori salta il controllo
+                if (numGiocatoriSeduti < 1) {
+                    allPlayersReady = false;
+                } else {
+                    // Controlla se tutti i giocatori sono pronti
+                    allPlayersReady = true;
+                    for (ThreadGiocatore giocatore : GiocatoriAlTavolo) {
+                        if (giocatore != null) {
+                            if (!giocatore.isReady) {
+                                allPlayersReady = false;
+                                break;
+                            }
+                        }
+                    }
+                }
+                BroadcastMsg(GiocatoriAlTavolo, "The game will start in " + timer-- + "s." );
+                try {
+                    sleep(1000); // sleep for 1 second
+                } catch (InterruptedException e) {}
+            }
+            // è scaduto il timer o Tutti i player sono pronti
+            logger.info("Starting the game...");
+            if (numGiocatoriSeduti > 0) { //Se ci sono effettivamente giocatori
+                
+                //IL GIOCO PARTE CON TUTTI I GIOCATORI PRESENTI
+
+                //Setta le variabili di stato InGame = true sia del tavolo che dei ThreadGiocatori
+                isInGame = true;
+                List<ThreadGiocatore> GiocatoriAttivi = new ArrayList<ThreadGiocatore>(); //Determina i Giocatori Attivi
+                for (ThreadGiocatore TGiocatore : GiocatoriAlTavolo) {
+                    if (TGiocatore != null) {
+                        TGiocatore.setInGame(true);
+                        GiocatoriAttivi.add(TGiocatore);
+                    }
+                }
+                logger.info("The game started with these players: " + getNomiGiocatori());
+                BroadcastMsg(GiocatoriAlTavolo, "The game started with these players: " + getNomiGiocatori());
+                
+                //Start a New Game
+                Game game = new Game(this, GiocatoriAttivi );
+                game.startGame();
+
+                //Setta le variabili di stato InGame = false sia del tavolo che dei ThreadGiocatori
+                isInGame = false;
+                for (ThreadGiocatore threadGiocatore : GiocatoriAlTavolo) {
+                    if (threadGiocatore != null) {
+                        threadGiocatore.setReady(false);
+                        threadGiocatore.setInGame(false);
+                    }
+                }
+                logger.info("The game is over");
+                BroadcastMsg(GiocatoriAlTavolo, "The game is over");
+                
+                
+            }else{
+                logger.info("The game did't start because at the end of the timer there 0 players active");
+            }
+        }
+
     }
 
     public String GetInfoTavolo(){
@@ -102,5 +174,27 @@ public class JTavolo extends Thread {
             listaDiRisposta.add(GiocatoriAlTavolo[i].giocatore.connessioneClient.id + "(Posto " + (i+1) + ")");
         }
         return listaDiRisposta;
+    }
+
+    void BroadcastMsg(List<ThreadGiocatore> BroadcastList, String msg){
+        if (BroadcastList.size() > 0) {
+            for (ThreadGiocatore TGiocatore : BroadcastList) {
+                TGiocatore.SendMsg(msg);
+            }
+        }  
+    }
+
+    void BroadcastMsg(ThreadGiocatore[] BroadcastArray, String msg){
+        for (ThreadGiocatore TGiocatore : BroadcastArray) {
+            if (TGiocatore != null)
+                TGiocatore.SendMsg(msg);
+        }
+    }
+
+    void BroadcastMsg(String msg){
+        for (ThreadGiocatore TGiocatore : GiocatoriAlTavolo) {
+            if (TGiocatore != null)
+                TGiocatore.SendMsg(msg);
+        }
     }
 }
