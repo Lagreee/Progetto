@@ -24,16 +24,33 @@ public class Game {
         System.out.println("Game Started!");
         gameInProgress = true;
 
-        // Deal cards to players
-        for (int i = 0; i < 2; i++) {
-            for (JGiocatore player : ListaGiocatori) {
-                String carta = deck.PescaCarta();
-                player.AddCarta(carta);
+        // Deal the first card to players
+        for (JGiocatore player : ListaGiocatori) {
+            String carta = deck.PescaCarta();
+            player.AddCarta(carta);
 
-                tavolo.BroadcastMsg("add;" + player.getName() + ";" + carta);
-                GameLog += "add;" + player.getName() + ";" + carta;
-            }
+            tavolo.BroadcastMsg("add;" + player.getName() + ";" + carta);
+            GameLog += "add;" + player.getName() + ";" + carta;
         }
+        
+        //Il dealer pesca una carta
+        String c = deck.PescaCarta();
+        dealer.AddCarta(c);
+        tavolo.BroadcastMsg("add;dealer;" + c);
+
+        //Deal the second card to players
+        for (JGiocatore player : ListaGiocatori) {
+            String carta = deck.PescaCarta();
+            player.AddCarta(carta);
+
+            tavolo.BroadcastMsg("add;" + player.getName() + ";" + carta);
+            GameLog += "add;" + player.getName() + ";" + carta;
+        }
+
+        //Il dealer pesca una carta
+        String cartaCoperta = deck.PescaCarta();
+        dealer.AddCarta(cartaCoperta);
+        tavolo.BroadcastMsg("add;dealer;hidden");
 
         // Allow players to take their turn
         for (JGiocatore player : ListaGiocatori) {
@@ -52,6 +69,8 @@ public class Game {
                 }
             }
         }
+
+        tavolo.BroadcastMsg("show;dealer;" + cartaCoperta);
 
         // Dealer takes their turn
         while (dealer.wantsToHit()) {
