@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Launch ServerTCP",
+            "request": "launch",
+            "mainClass": "ServerTCP",
+            "projectName": "ServerTCP_b69c218a"
+        },
+        {
+            "type": "java",
             "name": "Launch Current File",
             "request": "launch",
             "mainClass": "${file}"

@@ -10,6 +10,7 @@ public class ConnectionManager {
 
     private ConnectionManager() {
         //SET LOGGING UTILS
+        /*
         logger = Logger.getLogger("LogConnections");
         try {
             fileHandler = new FileHandler("Blackjack/ServerTCP/log/LogConnections.log");
@@ -20,6 +21,7 @@ public class ConnectionManager {
         } catch (Exception e) {
             e.printStackTrace();
         }
+         */
     }
 
     public static ConnectionManager getInstance() {
@@ -30,8 +32,8 @@ public class ConnectionManager {
     }
 
     // VARIABILI
-    Logger logger;
-    FileHandler fileHandler;
+    //Logger logger;
+    //FileHandler fileHandler;
     
     //Tavoli
     private List<JTavolo> ListaTavoli = new ArrayList<>();
@@ -43,13 +45,13 @@ public class ConnectionManager {
         ThreadConnection tempTC = new ThreadConnection(connClient);
         boolean b = Clients.add(tempTC);
         tempTC.start();
-        logger.info("Client ["+ connClient.getId()+"] aggiunto alla lista");
+        //logger.info("Client ["+ connClient.getId()+"] aggiunto alla lista");
         return b;
     }
 
     public void RemoveClient(ThreadConnection tc){
         Clients.remove(tc);
-        logger.info("Client ["+ tc.connessioneClient.getId()+"] rimosso dalla lista");
+        //logger.info("Client ["+ tc.connessioneClient.getId()+"] rimosso dalla lista");
     }
 
     public boolean AddTavolo(String nomeTavolo){
@@ -60,16 +62,16 @@ public class ConnectionManager {
                 JTavolo newTavolo = new JTavolo(nomeTavolo);
                 ListaTavoli.add(newTavolo);
                 newTavolo.start();
-                logger.info("Aggiunto il tavolo [" + nomeTavolo + "]");
+                //logger.info("Aggiunto il tavolo [" + nomeTavolo + "]");
             }
             else{
                 b = false;
-                logger.warning("Impossibile creare un altro tavolo con nome [" + nomeTavolo + "] poichè già presente");
+                //logger.warning("Impossibile creare un altro tavolo con nome [" + nomeTavolo + "] poichè già presente");
             }
         }
         else{//La lista è vota
             ListaTavoli.add(new JTavolo(nomeTavolo));
-            logger.info("Aggiunto il tavolo [" + nomeTavolo + "]");
+            //logger.info("Aggiunto il tavolo [" + nomeTavolo + "]");
         }
         
 
@@ -103,7 +105,7 @@ public class ConnectionManager {
     }
 
     public void MoveClientTo(String nomeTavolo, ThreadConnection tc) {
-        logger.info("Spostando il client [" + tc.connessioneClient.id + "] nel tavolo " + nomeTavolo);
+        //logger.info("Spostando il client [" + tc.connessioneClient.id + "] nel tavolo " + nomeTavolo);
         RemoveClient(tc);
         getTavoloByName(nomeTavolo).AddGiocatore(tc.connessioneClient);
         
@@ -126,11 +128,12 @@ public class ConnectionManager {
         Clients.remove(tc);
         try {
             tc.connessioneClient.socket.close();
+            System.out.println("Chiusura client " + tc.connessioneClient.getId());
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        logger.info("Client ["+ tc.connessioneClient.getId()+"] ha chiuso la connessione");
+        //logger.info("Client ["+ tc.connessioneClient.getId()+"] ha chiuso la connessione");
     }
     
 }
