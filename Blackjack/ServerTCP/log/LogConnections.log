@@ -1,22 +1,6 @@
-Dec 31, 2022 6:51:39 PM ConnectionManager <init>
+Jan 06, 2023 4:10:21 PM ConnectionManager <init>
 INFO: Connection Manager avviato
-Dec 31, 2022 6:51:39 PM ConnectionManager AddTavolo
+Jan 06, 2023 4:10:21 PM ConnectionManager AddTavolo
 INFO: Aggiunto il tavolo [Tavolo1]
-Dec 31, 2022 6:51:39 PM ConnectionManager AddTavolo
+Jan 06, 2023 4:10:21 PM ConnectionManager AddTavolo
 INFO: Aggiunto il tavolo [Tavolo2]
-Dec 31, 2022 6:51:44 PM ConnectionManager AddClient
-INFO: Client [Client0] aggiunto alla lista
-Dec 31, 2022 6:52:28 PM ConnectionManager MoveClientTo
-INFO: Spostando il client [Client0] nel tavolo Tavolo1
-Dec 31, 2022 6:52:28 PM ConnectionManager RemoveClient
-INFO: Client [Client0] rimosso dalla lista
-Dec 31, 2022 6:52:52 PM ConnectionManager AddClient
-INFO: Client [Client1] aggiunto alla lista
-Dec 31, 2022 6:53:08 PM ConnectionManager MoveClientTo
-INFO: Spostando il client [Client1] nel tavolo Tavolo1
-Dec 31, 2022 6:53:08 PM ConnectionManager RemoveClient
-INFO: Client [Client1] rimosso dalla lista
-Dec 31, 2022 6:58:59 PM ConnectionManager AddClient
-INFO: Client [Client1] aggiunto alla lista
-Dec 31, 2022 6:59:33 PM ConnectionManager AddClient
-INFO: Client [Client0] aggiunto alla lista
