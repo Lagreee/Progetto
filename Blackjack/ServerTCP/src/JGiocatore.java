@@ -5,9 +5,11 @@ import java.util.List;
 public class JGiocatore {  
     JConnect connessioneClient;
     List<String> Mano = new ArrayList<String>();
+    int posizione = -1;
 
-    public JGiocatore(JConnect connessioneClient){
+    public JGiocatore(JConnect connessioneClient, int posizione){
         this.connessioneClient = connessioneClient;
+        this.posizione = posizione;
     }
 
     public void ClearMano() {
@@ -79,5 +81,9 @@ public class JGiocatore {
 
     public String getName() {
         return connessioneClient.id;
+    }
+
+    public int getPosizione() {
+        return posizione;
     }
 }

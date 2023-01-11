@@ -29,28 +29,28 @@ public class Game {
             String carta = deck.PescaCarta();
             player.AddCarta(carta);
 
-            tavolo.BroadcastMsg("add;" + player.getName() + ";" + carta);
-            GameLog += "add;" + player.getName() + ";" + carta;
+            tavolo.BroadcastMsg("add;" + player.getName() + ";" + player.getPosizione() + ";" + carta);
+            GameLog += "add;" + player.getName() + ";" + player.getPosizione() + ";" + carta;
         }
         
         //Il dealer pesca una carta
         String c = deck.PescaCarta();
         dealer.AddCarta(c);
-        tavolo.BroadcastMsg("add;dealer;" + c);
+        tavolo.BroadcastMsg("add;dealer;8;" + c);
 
         //Deal the second card to players
         for (JGiocatore player : ListaGiocatori) {
             String carta = deck.PescaCarta();
             player.AddCarta(carta);
 
-            tavolo.BroadcastMsg("add;" + player.getName() + ";" + carta);
-            GameLog += "add;" + player.getName() + ";" + carta;
+            tavolo.BroadcastMsg("add;" + player.getName() + ";" + player.getPosizione() + ";" + carta);
+            GameLog += "add;" + player.getName() + ";" + player.getPosizione() + ";" + carta;
         }
 
         //Il dealer pesca una carta
         String cartaCoperta = deck.PescaCarta();
         dealer.AddCarta(cartaCoperta);
-        tavolo.BroadcastMsg("add;dealer;hidden");
+        tavolo.BroadcastMsg("hiddenAdd;dealer;8;");
 
         // Allow players to take their turn
         for (JGiocatore player : ListaGiocatori) {
@@ -58,29 +58,29 @@ public class Game {
 
                 String carta = deck.PescaCarta();
                 player.AddCarta(carta);
-                tavolo.BroadcastMsg("add;" + player.getName() + ";" + carta);
-                GameLog += "add;" + player.getName() + ";" + carta;
+                tavolo.BroadcastMsg("add;" + player.getName() + ";" + player.getPosizione() + ";" + carta);
+                GameLog += "add;" + player.getName() + ";" + player.getPosizione() + ";" + carta;
 
                 if (player.isBust()) {
-                    tavolo.BroadcastMsg("bust;" + player.getName());
-                    GameLog += "bust;" + player.getName() + "\n";
+                    tavolo.BroadcastMsg("bust;" + player.getName() + player.getPosizione() + ";");
+                    GameLog += "bust;" + player.getName() + player.getPosizione() + ";" + "\n";
                     // Player has gone over 21 and loses
                     break;
                 }
             }
         }
 
-        tavolo.BroadcastMsg("show;dealer;" + cartaCoperta);
+        tavolo.BroadcastMsg("show;dealer;8;" + cartaCoperta);
 
         // Dealer takes their turn
         while (dealer.wantsToHit()) {
             String carta = deck.PescaCarta();
             dealer.AddCarta(carta);
-            tavolo.BroadcastMsg("add;dealer;" + carta);
+            tavolo.BroadcastMsg("add;dealer;8;" + carta);
             if (dealer.isBust()) {
                 // Dealer has gone over 21 and loses
-                tavolo.BroadcastMsg("bust;dealer");
-                GameLog += "bust;dealer\n";
+                tavolo.BroadcastMsg("bust;dealer;8");
+                GameLog += "bust;dealer;8\n";
                 break;
             }
         }
@@ -97,11 +97,11 @@ public class Game {
     }
 
     private void displayResults(List<JGiocatore> winners) {
-        for (JGiocatore jGiocatore : ListaGiocatori) {
-            if (winners.contains(jGiocatore)) {
-                tavolo.BroadcastMsg("winner;" + jGiocatore.getName());
+        for (JGiocatore player : ListaGiocatori) {
+            if (winners.contains(player)) {
+                tavolo.BroadcastMsg("winner;" + player.getName() + ";" + player.getPosizione() + ";");
             } else {
-                tavolo.BroadcastMsg("lose;" + jGiocatore.getName());
+                tavolo.BroadcastMsg("lose;" + player.getName() + ";" + player.getPosizione() + ";");
             }
 
         }

@@ -125,7 +125,7 @@ public class JTavolo extends Thread {
         if(numGiocatoriSeduti < 7){
             int pos = getPrimaPosLibera();
 
-            JGiocatore g = new JGiocatore(connGiocatore);
+            JGiocatore g = new JGiocatore(connGiocatore, pos);
             ThreadGiocatore tg = new ThreadGiocatore(g, this);
             GiocatoriAlTavolo[pos] = tg;
             tg.start();
