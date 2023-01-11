@@ -54,8 +54,15 @@ public class JGiocatore {
         
         risposta = AttendiRispota();
 
-        if(risposta.equals("hit"))
+        if(risposta.equals("hit")){
             wantsToHit = true;
+        }
+        else if (risposta.equalsIgnoreCase("stop")) {
+            wantsToHit = false;
+        }
+        else{
+            wantsToHit = false;
+        }
 
         return wantsToHit;
     }

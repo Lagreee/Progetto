@@ -30,6 +30,21 @@ public class ThreadConnection extends Thread {
         String[] parts;
         String command; // command
         List<String> arguments = new ArrayList<String>();
+        String name = "";
+
+        if (connessioneClient.id.equals("")) {
+            do {
+                out.println("getName");
+                try {
+                    name = in.readLine();
+                } catch (IOException e) {
+                    name = "error";
+                    isActive = false;
+                    ConnectionManager.getInstance().RemoveClient(this);
+                }
+            } while (name.equals(""));
+            connessioneClient.id = name;
+        }
 
         out.println(HELP_STRING);
 
@@ -97,4 +112,5 @@ public class ThreadConnection extends Thread {
             }
         }
     }
+
 }

@@ -19,8 +19,8 @@ public class ThreadWaitConnection extends Thread {
             
                 System.out.println("Connection accepted: "+ socket);
                 //Aggiungi il client al Connection Manager
-                ConnectionManager.getInstance().AddClient(new JConnect("Client"+numClient++, socket));
-                
+                ConnectionManager.getInstance().AddClient(new JConnect("", socket));
+                //new JConnect("Client"+numClient++, socket)
             } catch(Exception e){e.printStackTrace();}
             finally{}
         }
