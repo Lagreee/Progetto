@@ -11,6 +11,7 @@ public class ConnectionManager {
     private ConnectionManager() {
         //SET LOGGING UTILS
         
+        /*
         logger = Logger.getLogger("LogConnections");
         try {
             fileHandler = new FileHandler("Blackjack/ServerTCP/log/LogConnections.log");
@@ -21,7 +22,7 @@ public class ConnectionManager {
         } catch (Exception e) {
             e.printStackTrace();
         }
-         
+          */
     }
 
     public static ConnectionManager getInstance() {
@@ -79,9 +80,9 @@ public class ConnectionManager {
     }
 
     public String getInfoTavoli() {
-        String risposta = "";
+        String risposta = "StatoTavolo;";
         for (JTavolo tavolo : ListaTavoli) {
-            risposta += tavolo.GetInfoTavolo() + "\n";
+            risposta += tavolo.GetInfoTavolo() + ";";
         }
         return risposta;
     }

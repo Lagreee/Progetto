@@ -33,20 +33,25 @@ public class ThreadConnection extends Thread {
         String name = "";
 
         if (connessioneClient.id.equals("")) {
+            out.println("getName;");   
             do {
-                out.println("getName");
                 try {
-                    name = in.readLine();
-                } catch (IOException e) {
+                    
+                    if (in.ready()) {
+                        name = in.readLine();
+                    }
+                } catch (Exception e) {
                     name = "error";
                     isActive = false;
                     ConnectionManager.getInstance().RemoveClient(this);
                 }
             } while (name.equals(""));
             connessioneClient.id = name;
+
+            out.println("NomeClient: " + name);
         }
 
-        out.println(HELP_STRING);
+        //out.println(HELP_STRING);
 
         while (isActive) {
             try {

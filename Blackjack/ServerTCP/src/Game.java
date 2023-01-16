@@ -29,21 +29,22 @@ public class Game {
             String carta = deck.PescaCarta();
             player.AddCarta(carta);
 
-            tavolo.BroadcastMsg("add;" + player.getName() + ";" + player.getPosizione() + ";" + carta);
+            tavolo.BroadcastMsg("add;" + player.getName() + ";" + player.getPosizione() + ";" + CardToGame(carta));
             GameLog += "add;" + player.getName() + ";" + player.getPosizione() + ";" + carta;
+            
         }
         
         //Il dealer pesca una carta
         String c = deck.PescaCarta();
         dealer.AddCarta(c);
-        tavolo.BroadcastMsg("add;dealer;8;" + c);
+        tavolo.BroadcastMsg("add;dealer;8;" + CardToGame(c));
 
         //Deal the second card to players
         for (JGiocatore player : ListaGiocatori) {
             String carta = deck.PescaCarta();
             player.AddCarta(carta);
 
-            tavolo.BroadcastMsg("add;" + player.getName() + ";" + player.getPosizione() + ";" + carta);
+            tavolo.BroadcastMsg("add;" + player.getName() + ";" + player.getPosizione() + ";" + CardToGame(carta));
             GameLog += "add;" + player.getName() + ";" + player.getPosizione() + ";" + carta;
         }
 
@@ -58,7 +59,7 @@ public class Game {
 
                 String carta = deck.PescaCarta();
                 player.AddCarta(carta);
-                tavolo.BroadcastMsg("add;" + player.getName() + ";" + player.getPosizione() + ";" + carta);
+                tavolo.BroadcastMsg("add;" + player.getName() + ";" + player.getPosizione() + ";" + CardToGame(carta));
                 GameLog += "add;" + player.getName() + ";" + player.getPosizione() + ";" + carta;
 
                 if (player.isBust()) {
@@ -70,13 +71,13 @@ public class Game {
             }
         }
 
-        tavolo.BroadcastMsg("show;dealer;8;" + cartaCoperta);
+        tavolo.BroadcastMsg("show;dealer;8;" + CardToGame(cartaCoperta));
 
         // Dealer takes their turn
         while (dealer.wantsToHit()) {
             String carta = deck.PescaCarta();
             dealer.AddCarta(carta);
-            tavolo.BroadcastMsg("add;dealer;8;" + carta);
+            tavolo.BroadcastMsg("add;dealer;8;" + CardToGame(carta));
             if (dealer.isBust()) {
                 // Dealer has gone over 21 and loses
                 tavolo.BroadcastMsg("bust;dealer;8");
@@ -122,4 +123,14 @@ public class Game {
         return ListaVincitori;
     }
 
+
+    String CardToGame(String carta){
+        String[] cartaSeparata =  carta.split("-");
+        String numero = cartaSeparata[0];
+        String segno = cartaSeparata[1];
+        if (numero.length() < 2) {
+            numero = "0" + numero; 
+        }
+        return segno+numero;
+    }
 }

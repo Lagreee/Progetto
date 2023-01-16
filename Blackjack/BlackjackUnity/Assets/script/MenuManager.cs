@@ -11,15 +11,20 @@ public class MenuManager : MonoBehaviour
     public void Play()
     {
         name = nameText.text;
-        Debug.Log(name);
-
-        if (TCPClient.Instance.ConnectToServer(name))
+        if (!string.Equals(name, "â??"))
         {
-            SceneManager.LoadScene(1);
+            if (TCPClient.Instance.ConnectToServer(name))
+            {
+                SceneManager.LoadScene(1);
+            }
+            else
+            {
+                errorText.text = "Can't connect to the server";
+            }
         }
         else
         {
-            errorText.text = "Can't connect to the server";
+            errorText.text = "Inserire un username";
         }
 
 

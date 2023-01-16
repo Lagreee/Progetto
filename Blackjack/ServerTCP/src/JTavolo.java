@@ -6,22 +6,22 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 
 public class JTavolo extends Thread {
-    final int TEMPO_TIMER = 60;
+    final int TEMPO_TIMER = 10;
     final int MAX_GIOCATORI = 7;
     String nomeTavolo;
     boolean isInGame = false;
-
+/*
     String NomeFileLog;
     Logger logger;
     FileHandler fileHandler;  
-
+ */
     private ThreadGiocatore[] GiocatoriAlTavolo = new ThreadGiocatore[7];
     int numGiocatoriSeduti = 0;
 
     public JTavolo(String nome) {
         nomeTavolo = nome;
 
-        
+        /* 
         NomeFileLog = "LogTavolo"+nomeTavolo;
         logger = Logger.getLogger("NomeFileLog");
         try {
@@ -32,7 +32,7 @@ public class JTavolo extends Thread {
         } catch (SecurityException | IOException e) {
             e.printStackTrace();
         }   
-        
+        */
     }
 
     @Override
@@ -80,7 +80,7 @@ public class JTavolo extends Thread {
                         GiocatoriAttivi.add(TGiocatore);
                     }
                 }
-                logger.info("The game started with these players: " + getNomiGiocatori());
+                //logger.info("The game started with these players: " + getNomiGiocatori());
                 BroadcastMsg(GiocatoriAlTavolo, "The game started with these players: " + getNomiGiocatori());
                 
                 //Start a New Game
@@ -95,19 +95,19 @@ public class JTavolo extends Thread {
                         threadGiocatore.setInGame(false);
                     }
                 }
-                logger.info("The game is over");
+                //logger.info("The game is over");
                 BroadcastMsg(GiocatoriAlTavolo, "The game is over");
                 
                 
             }else{
-                logger.info("The game did't start because at the end of the timer there 0 players active");
+                //logger.info("The game did't start because at the end of the timer there 0 players active");
             }
         }
 
     }
 
     public String GetInfoTavolo(){
-        String risposta = nomeTavolo + " (" + numGiocatoriSeduti +"/7) - In game: " + isInGame;
+        String risposta = nomeTavolo + "-" + numGiocatoriSeduti +"/7-" + isInGame;
         return risposta;
     }
 

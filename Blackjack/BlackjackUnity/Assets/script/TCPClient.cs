@@ -1,6 +1,3 @@
-// This work is licensed under the Creative Commons Attribution-ShareAlike 4.0 International License. 
-// To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/4.0/ 
-// or send a letter to Creative Commons, PO Box 1866, Mountain View, CA 94042, USA.
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,10 +5,10 @@ using System.Net.Sockets;
 using System.Text;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class TCPClient : MonoBehaviour
 {
-
     // The client socket
     TcpClient client;
     // The network stream
@@ -22,10 +19,22 @@ public class TCPClient : MonoBehaviour
     Thread receiveThread;
     // The port we are using
     int port = 8080;
-	//Is Connected
-	bool isConnected = false;
+    // Is Connected
+    bool isConnected = false;
+    // Name
+    String nome;
 
-	// Singleton
+    //UpdateUITavoli
+    bool UpdateUI = false;
+    String[] UpdateUIStrings;
+
+    //Connection to Tables
+    bool connectedToTable = false;
+    string tavolo = "";
+
+    TableManager tm;
+
+    // Singleton
     public static TCPClient Instance { get; private set; }
 
     private void Awake()
@@ -39,13 +48,14 @@ public class TCPClient : MonoBehaviour
         else
         {
             Instance = this;
+            DontDestroyOnLoad(this.gameObject);
         }
     }
 
 
 
     // Use this for initialization 	
-   public bool ConnectToServer(string name)
+    public bool ConnectToServer(string name)
     {
         try
         {
@@ -57,24 +67,42 @@ public class TCPClient : MonoBehaviour
             // Subscribe to the quitting event
             Application.quitting += OnApplicationQuit;
 
-			isConnected = true;
+            isConnected = true;
+            this.nome = name;
+            Debug.Log("Nome:" + nome);
         }
         catch (System.Exception)
         {
-			isConnected = false;
+            isConnected = false;
         }
-		return isConnected;
+        return isConnected;
     }
 
     // Update is called once per frame
     void Update()
     {
-        /*
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (UpdateUI)
         {
-            InviaMessaggio("Hello!");
+            string[] tavolo1 = UpdateUIStrings[1].Split("-");
+            Debug.Log(tavolo1[1] + " - " + tavolo1[2]);
+            string[] tavolo2 = UpdateUIStrings[2].Split("-");
+            Debug.Log(tavolo2[1] + " - " + tavolo2[2]);
+            string[] tavolo3 = UpdateUIStrings[3].Split("-");
+            Debug.Log(tavolo3[1] + " - " + tavolo3[2]);
+
+            tm.SetUITavolo1(tavolo1[1], tavolo1[2]);
+            tm.SetUITavolo2(tavolo2[1], tavolo2[2]);
+            tm.SetUITavolo3(tavolo3[1], tavolo3[2]);
+
+            UpdateUI = false;
         }
-		*/
+
+        if (connectedToTable)
+        {
+            SceneManager.LoadScene(2);
+            connectedToTable = false;
+        }
+
     }
 
 
@@ -90,6 +118,7 @@ public class TCPClient : MonoBehaviour
     // Start receiving data from the server
     public void StartReceiving()
     {
+        Debug.Log("Iniziato a ricevere");
         isReceiving = true;
         receiveThread = new Thread(new ThreadStart(ReceiveLoop));
         receiveThread.Start();
@@ -108,6 +137,7 @@ public class TCPClient : MonoBehaviour
         while (isReceiving)
         {
             // Check if data is available
+            //if (stream.DataAvailable)
             if (stream.DataAvailable)
             {
                 // Read data from the stream
@@ -127,11 +157,56 @@ public class TCPClient : MonoBehaviour
         Debug.Log("Messaggio Ricevuto: " + data);
         // Your code here
         // For example, you could parse the received data and update the game state accordingly
+        String[] datiSeparati = data.Split(";");
+        String comando = datiSeparati[0];
+
+        switch (comando)
+        {
+            case "getName":
+                InviaMessaggio(nome);
+                InviaMessaggio("getInfoTavoli");
+                break;
+
+            case "StatoTavolo":
+                UpdateUIStrings = datiSeparati;
+                UpdateUI = true;
+                break;
+
+            case "Connected":
+                connectedToTable = true;
+                break;
+
+            default:
+                Debug.Log("messaggio non processato: [" + data + "]");
+                break;
+        }
     }
 
     void OnApplicationQuit()
     {
+        Quit();
+    }
+
+    public string getName()
+    {
+        return nome;
+    }
+
+    public void Quit()
+    {
+        InviaMessaggio("quit");
         StopReceiving();
         client.Close();
+    }
+
+    public void setTm(TableManager t)
+    {
+        this.tm = t;
+    }
+
+    public void connectToTable(string Tavolo)
+    {
+        tavolo = Tavolo;
+        InviaMessaggio("connectToTable[" + Tavolo + "]");
     }
 }

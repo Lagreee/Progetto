@@ -33,7 +33,7 @@ public class ThreadGiocatore extends Thread {
         String command; // command
         List<String> arguments = new ArrayList<String>();
 
-        out.println("Benvenuto al Tavolo: " + tavolo.nomeTavolo + "\n" + HELP_STRING);
+        out.println("Connected;" + tavolo.nomeTavolo);
 
         while (isActive) {
             try {

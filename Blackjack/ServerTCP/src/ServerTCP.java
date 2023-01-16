@@ -9,7 +9,7 @@ public class ServerTCP {
         
         ConnectionManager.getInstance().AddTavolo("Tavolo1");
         ConnectionManager.getInstance().AddTavolo("Tavolo2");
-        //ConnectionManager.getInstance().AddTavolo("Tavolo3");
+        ConnectionManager.getInstance().AddTavolo("Tavolo3");
         
         ThreadWaitConnection ThreadAspettaConnessioni = new ThreadWaitConnection(serverSocket);
         ThreadAspettaConnessioni.start();
