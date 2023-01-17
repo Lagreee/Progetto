@@ -117,9 +117,17 @@ public class TCPClient : MonoBehaviour
                 Debug.Log("Pos: " + UpdateTableArgs[2] + ", Carta: " + UpdateTableArgs[3]);
                 gm.addCarta(UpdateTableArgs[2], UpdateTableArgs[3]);
             }
-            else if(UpdateTableArgs[0] == "hiddenAdd")
+            else if (UpdateTableArgs[0] == "hiddenAdd")
             {
                 gm.HiddenAdd();
+            }
+            else if (UpdateTableArgs[0] == "start")
+            {
+                gm.startGame();
+            }
+            else if (UpdateTableArgs[0] == "end")
+            {
+                gm.endGame();
             }
             UpdateTable = false;
         }
@@ -210,6 +218,15 @@ public class TCPClient : MonoBehaviour
                 UpdateTable = true;
                 break;
 
+            case "start":
+                UpdateTableArgs[0] = datiSeparati[0];
+                UpdateTable = true;
+                break;
+
+            case "end":
+                UpdateTableArgs[0] = datiSeparati[0];
+                UpdateTable = true;
+                break;
             default:
                 Debug.Log("messaggio non processato: [" + data + "]");
                 break;
@@ -248,4 +265,6 @@ public class TCPClient : MonoBehaviour
         tavolo = Tavolo;
         InviaMessaggio("connectToTable[" + Tavolo + "]");
     }
+
+
 }

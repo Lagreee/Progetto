@@ -23,9 +23,9 @@ public class Game {
     }
 
     void startGame(){
-        System.out.println("Game Started!");
         gameInProgress = true;
-
+        tavolo.BroadcastMsg("start;");
+        Aspetta(2);
         // Deal the first card to players
         for (JGiocatore player : ListaGiocatori) {
             String carta = deck.PescaCarta();
@@ -34,7 +34,7 @@ public class Game {
             tavolo.BroadcastMsg("add;" + player.getName() + ";" + player.getPosizione() + ";" + CardToGame(carta)+ ";");
             GameLog += "add;" + player.getName() + ";" + player.getPosizione() + ";" + carta;
 
-            Aspetta();
+            Aspetta(1);
             
         }
         
@@ -42,7 +42,7 @@ public class Game {
         String c = deck.PescaCarta();
         dealer.AddCarta(c);
         tavolo.BroadcastMsg("add;dealer;dealer;" + CardToGame(c) + ";");
-        Aspetta();
+        Aspetta(1);
 
         //Deal the second card to players
         for (JGiocatore player : ListaGiocatori) {
@@ -52,14 +52,14 @@ public class Game {
             tavolo.BroadcastMsg("add;" + player.getName() + ";" + player.getPosizione() + ";" + CardToGame(carta) + ";");
             GameLog += "add;" + player.getName() + ";" + player.getPosizione() + ";" + carta;
         
-            Aspetta();
+            Aspetta(1);
         }
 
         //Il dealer pesca una carta
         String cartaCoperta = deck.PescaCarta();
         dealer.AddCarta(cartaCoperta);
         tavolo.BroadcastMsg("hiddenAdd;dealer;8;");
-        Aspetta();
+        Aspetta(1);
 
         // Allow players to take their turn
         for (JGiocatore player : ListaGiocatori) {
@@ -79,13 +79,14 @@ public class Game {
             }
         }
 
-        tavolo.BroadcastMsg("show;dealer;dealer;" + CardToGame(cartaCoperta));
+        tavolo.BroadcastMsg("add;dealer;dealer;" + CardToGame(cartaCoperta) + ";");
+        Aspetta(1);
 
         // Dealer takes their turn
         while (dealer.wantsToHit()) {
             String carta = deck.PescaCarta();
             dealer.AddCarta(carta);
-            tavolo.BroadcastMsg("add;dealer;dealer;" + CardToGame(carta));
+            tavolo.BroadcastMsg("add;dealer;dealer;" + CardToGame(carta) + ";");
             if (dealer.isBust()) {
                 // Dealer has gone over 21 and loses
                 tavolo.BroadcastMsg("bust;dealer;8");
@@ -103,11 +104,13 @@ public class Game {
             jGiocatore.ClearMano();
         }
 
+        Aspetta(10);
+        tavolo.BroadcastMsg("end;");
     }
 
-    private void Aspetta() {
+    private void Aspetta(int secondi) {
         try {
-            TimeUnit.SECONDS.sleep(1);
+            TimeUnit.SECONDS.sleep(secondi);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

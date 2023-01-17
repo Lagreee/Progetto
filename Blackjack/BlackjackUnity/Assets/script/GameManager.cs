@@ -5,56 +5,65 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private Transform pos0, pos1, pos2, pos3, pos4, pos5, pos6, posDealer;
+    [SerializeField] private GameObject quitBT, addBT, stayBT;
     int[] numCarte = new int[8];
     int layer = 1;
 
-    void startGame()
-    {
+    List<GameObject> listaCarte = new List<GameObject>();
 
+    public void startGame()
+    {
+        Debug.Log("STARTGAME");
+        quitBT.SetActive(false);
+        int[] numCarte = new int[8];
+        
+        for (int i = 0; i < numCarte.Length; i++)
+        {
+            numCarte[i] = 0;
+        }
+        layer = 1;
+    }
+
+    public void endGame()
+    {
+        quitBT.SetActive(true);
+
+        GameObject[] carteDaEliminare = GameObject.FindGameObjectsWithTag("Carta");
+        Debug.Log(carteDaEliminare.ToString());
+        foreach (GameObject c in carteDaEliminare)
+        {
+            Destroy(c);
+        }
     }
 
     // Start is called before the first frame update
     void Start()
     {
         TCPClient.Instance.setGameManager(this);
-
-        for(int i = 0; i < numCarte.Length; i++)
+        for (int i = 0; i < numCarte.Length; i++)
         {
             numCarte[i] = 0;
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            addCarta("0", "Club01");
-        }
-        if (Input.GetKeyDown(KeyCode.W))
-        {
-            addCarta("dealer", "Club01");
-        }
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            HiddenAdd();
-        }
+        layer = 1;
     }
 
     public void addCarta(string Pos, string nomeCarta)
     {
         GameObject carta = new GameObject();
+        carta.tag = "Carta";
+        listaCarte.Add(carta);
         //Aggiungi Sprite
         carta.AddComponent<SpriteRenderer>();
         SpriteRenderer imageCarta = carta.GetComponent<SpriteRenderer>();
-        imageCarta.sprite = Resources.Load<Sprite>("Carte/"+nomeCarta);
+        imageCarta.sprite = Resources.Load<Sprite>("Carte/" + nomeCarta);
         imageCarta.sortingOrder = layer++;
         //Imposta Posizione
         Transform posizioneCarta = carta.transform;
+        
         switch (Pos)
         {
             case "0":
-                posizioneCarta.position = pos0.position;
+                posizioneCarta.position = new Vector3(pos0.position.x, pos0.position.y) ;
                 posizioneCarta.position += Vector3.up * numCarte[0];
                 numCarte[0]++;
                 break;
@@ -101,13 +110,15 @@ public class GameManager : MonoBehaviour
                 numCarte[7]++;
                 break;
 
-            
+
         }
     }
 
     public void HiddenAdd()
     {
         GameObject carta = new GameObject();
+        carta.tag = "Carta";
+        listaCarte.Add(carta);
         //Aggiungi Sprite
         carta.AddComponent<SpriteRenderer>();
         SpriteRenderer imageCarta = carta.GetComponent<SpriteRenderer>();
@@ -117,5 +128,15 @@ public class GameManager : MonoBehaviour
         Transform posizioneCarta = carta.transform;
         posizioneCarta.position = posDealer.position;
         posizioneCarta.position -= Vector3.right * numCarte[7];
+    }
+
+    public void addCarta()
+    {
+        TCPClient.Instance.InviaMessaggio("hit");
+    }
+
+    public void stayCarta()
+    {
+        TCPClient.Instance.InviaMessaggio("stay");
     }
 }
