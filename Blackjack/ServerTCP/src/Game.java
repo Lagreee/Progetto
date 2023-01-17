@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
+
 
 public class Game {
     JTavolo tavolo;
@@ -20,7 +22,7 @@ public class Game {
         }
     }
 
-    void startGame() {
+    void startGame(){
         System.out.println("Game Started!");
         gameInProgress = true;
 
@@ -31,6 +33,8 @@ public class Game {
 
             tavolo.BroadcastMsg("add;" + player.getName() + ";" + player.getPosizione() + ";" + CardToGame(carta));
             GameLog += "add;" + player.getName() + ";" + player.getPosizione() + ";" + carta;
+
+            Aspetta();
             
         }
         
@@ -38,6 +42,7 @@ public class Game {
         String c = deck.PescaCarta();
         dealer.AddCarta(c);
         tavolo.BroadcastMsg("add;dealer;8;" + CardToGame(c));
+        Aspetta();
 
         //Deal the second card to players
         for (JGiocatore player : ListaGiocatori) {
@@ -46,12 +51,15 @@ public class Game {
 
             tavolo.BroadcastMsg("add;" + player.getName() + ";" + player.getPosizione() + ";" + CardToGame(carta));
             GameLog += "add;" + player.getName() + ";" + player.getPosizione() + ";" + carta;
+        
+            Aspetta();
         }
 
         //Il dealer pesca una carta
         String cartaCoperta = deck.PescaCarta();
         dealer.AddCarta(cartaCoperta);
         tavolo.BroadcastMsg("hiddenAdd;dealer;8;");
+        Aspetta();
 
         // Allow players to take their turn
         for (JGiocatore player : ListaGiocatori) {
@@ -95,6 +103,14 @@ public class Game {
             jGiocatore.ClearMano();
         }
 
+    }
+
+    private void Aspetta() {
+        try {
+            TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     private void displayResults(List<JGiocatore> winners) {
