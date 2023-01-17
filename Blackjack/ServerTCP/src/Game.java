@@ -31,7 +31,7 @@ public class Game {
             String carta = deck.PescaCarta();
             player.AddCarta(carta);
 
-            tavolo.BroadcastMsg("add;" + player.getName() + ";" + player.getPosizione() + ";" + CardToGame(carta));
+            tavolo.BroadcastMsg("add;" + player.getName() + ";" + player.getPosizione() + ";" + CardToGame(carta)+ ";");
             GameLog += "add;" + player.getName() + ";" + player.getPosizione() + ";" + carta;
 
             Aspetta();
@@ -41,7 +41,7 @@ public class Game {
         //Il dealer pesca una carta
         String c = deck.PescaCarta();
         dealer.AddCarta(c);
-        tavolo.BroadcastMsg("add;dealer;8;" + CardToGame(c));
+        tavolo.BroadcastMsg("add;dealer;dealer;" + CardToGame(c) + ";");
         Aspetta();
 
         //Deal the second card to players
@@ -49,7 +49,7 @@ public class Game {
             String carta = deck.PescaCarta();
             player.AddCarta(carta);
 
-            tavolo.BroadcastMsg("add;" + player.getName() + ";" + player.getPosizione() + ";" + CardToGame(carta));
+            tavolo.BroadcastMsg("add;" + player.getName() + ";" + player.getPosizione() + ";" + CardToGame(carta) + ";");
             GameLog += "add;" + player.getName() + ";" + player.getPosizione() + ";" + carta;
         
             Aspetta();
@@ -67,7 +67,7 @@ public class Game {
 
                 String carta = deck.PescaCarta();
                 player.AddCarta(carta);
-                tavolo.BroadcastMsg("add;" + player.getName() + ";" + player.getPosizione() + ";" + CardToGame(carta));
+                tavolo.BroadcastMsg("add;" + player.getName() + ";" + player.getPosizione() + ";" + CardToGame(carta) + ";");
                 GameLog += "add;" + player.getName() + ";" + player.getPosizione() + ";" + carta;
 
                 if (player.isBust()) {
@@ -79,17 +79,17 @@ public class Game {
             }
         }
 
-        tavolo.BroadcastMsg("show;dealer;8;" + CardToGame(cartaCoperta));
+        tavolo.BroadcastMsg("show;dealer;dealer;" + CardToGame(cartaCoperta));
 
         // Dealer takes their turn
         while (dealer.wantsToHit()) {
             String carta = deck.PescaCarta();
             dealer.AddCarta(carta);
-            tavolo.BroadcastMsg("add;dealer;8;" + CardToGame(carta));
+            tavolo.BroadcastMsg("add;dealer;dealer;" + CardToGame(carta));
             if (dealer.isBust()) {
                 // Dealer has gone over 21 and loses
                 tavolo.BroadcastMsg("bust;dealer;8");
-                GameLog += "bust;dealer;8\n";
+                GameLog += "bust;dealer;dealer\n";
                 break;
             }
         }

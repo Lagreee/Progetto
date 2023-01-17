@@ -32,7 +32,14 @@ public class TCPClient : MonoBehaviour
     bool connectedToTable = false;
     string tavolo = "";
 
+
+    //Reference al Table manager per l'update dell'UI
     TableManager tm;
+
+    //Reference al GameManager per l'update del campo di gioco
+    GameManager gm;
+    bool UpdateTable;
+    string[] UpdateTableArgs = new string[4];
 
     // Singleton
     public static TCPClient Instance { get; private set; }
@@ -101,6 +108,20 @@ public class TCPClient : MonoBehaviour
         {
             SceneManager.LoadScene(2);
             connectedToTable = false;
+        }
+
+        if (UpdateTable)
+        {
+            if (UpdateTableArgs[0] == "add")
+            {
+                Debug.Log("Pos: " + UpdateTableArgs[2] + ", Carta: " + UpdateTableArgs[3]);
+                gm.addCarta(UpdateTableArgs[2], UpdateTableArgs[3]);
+            }
+            else if(UpdateTableArgs[0] == "hiddenAdd")
+            {
+                gm.HiddenAdd();
+            }
+            UpdateTable = false;
         }
 
     }
@@ -176,6 +197,19 @@ public class TCPClient : MonoBehaviour
                 connectedToTable = true;
                 break;
 
+            case "add":
+                UpdateTableArgs[0] = datiSeparati[0];
+                UpdateTableArgs[1] = datiSeparati[1];
+                UpdateTableArgs[2] = datiSeparati[2];
+                UpdateTableArgs[3] = datiSeparati[3];
+                UpdateTable = true;
+                break;
+
+            case "hiddenAdd":
+                UpdateTableArgs[0] = datiSeparati[0];
+                UpdateTable = true;
+                break;
+
             default:
                 Debug.Log("messaggio non processato: [" + data + "]");
                 break;
@@ -202,6 +236,11 @@ public class TCPClient : MonoBehaviour
     public void setTm(TableManager t)
     {
         this.tm = t;
+    }
+
+    public void setGameManager(GameManager g)
+    {
+        this.gm = g;
     }
 
     public void connectToTable(string Tavolo)
