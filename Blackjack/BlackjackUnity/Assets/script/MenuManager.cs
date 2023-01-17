@@ -7,11 +7,18 @@ public class MenuManager : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI nameText;
     [SerializeField] TextMeshProUGUI errorText;
+    private string baseName;
+
+    private void Start()
+    {
+        baseName = nameText.text;
+    }
+
 
     public void Play()
     {
         name = nameText.text;
-        if (!string.Equals(name, "â??"))
+        if (!string.Equals(name, baseName))
         {
             if (TCPClient.Instance.ConnectToServer(name))
             {

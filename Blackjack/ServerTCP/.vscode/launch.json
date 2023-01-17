@@ -9,6 +9,13 @@
             "name": "Launch ServerTCP",
             "request": "launch",
             "mainClass": "ServerTCP",
+            "projectName": "ServerTCP_be87725a"
+        },
+        {
+            "type": "java",
+            "name": "Launch ServerTCP",
+            "request": "launch",
+            "mainClass": "ServerTCP",
             "projectName": "ServerTCP_b69c218a"
         },
         {
