@@ -86,8 +86,9 @@ public class ThreadConnection extends Thread {
                             if (arguments.size() == 1) {
                                 String nomeTavolo = arguments.get(0);
                                 if (ConnectionManager.getInstance().getTableNameList().contains(nomeTavolo)) {
-                                    ConnectionManager.getInstance().MoveClientTo(nomeTavolo, this);
-                                    isActive = false;
+                                    if(ConnectionManager.getInstance().MoveClientTo(nomeTavolo, this)){
+                                        isActive = false;
+                                    }                                        
                                 } else {
                                     out.println("Invalid Table Name");
                                 }

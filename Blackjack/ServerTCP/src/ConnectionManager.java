@@ -105,11 +105,16 @@ public class ConnectionManager {
         return tableNameList;
     }
 
-    public void MoveClientTo(String nomeTavolo, ThreadConnection tc) {
+    public boolean MoveClientTo(String nomeTavolo, ThreadConnection tc) {
         //logger.info("Spostando il client [" + tc.connessioneClient.id + "] nel tavolo " + nomeTavolo);
-        RemoveClient(tc);
-        getTavoloByName(nomeTavolo).AddGiocatore(tc.connessioneClient);
+        boolean b = false;
         
+        if(getTavoloByName(nomeTavolo).AddGiocatore(tc.connessioneClient)){
+            RemoveClient(tc);
+            b = true;
+        }
+        
+        return b;
     }
 
     private JTavolo getTavoloByName(String nomeTavolo){
