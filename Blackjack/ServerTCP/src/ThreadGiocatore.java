@@ -37,13 +37,21 @@ public class ThreadGiocatore extends Thread {
 
         while (isActive) {
             try {
+                
+                if (giocatore.disconnected) {
+                    tavolo.Disconnect(this);
+                    isActive = false;                    
+                    System.out.println(giocatore.getName() + " si è disconnesso");
+                    break;
+                }
+
                 while (!inGame && in.ready()) { // If player is in game don't interact with it
 
                     request = in.readLine();
                     parts = request.split("[\\[\\],]");
                     command = parts[0]; // command
                     arguments.clear();
-                    ;
+                    
                     if (parts.length > 1) {
                         for (int i = 1; i < parts.length; i++)
                             arguments.add(parts[i]); // ricevi argomenti
@@ -51,7 +59,7 @@ public class ThreadGiocatore extends Thread {
 
                     switch (command) {
                         case "getNomiGiocatoriNelTavolo":
-                            out.println(tavolo.getNomiGiocatori());
+                            out.println(tavolo.getStringNomiGiocatori());
                             break;
 
                         case "setReady":

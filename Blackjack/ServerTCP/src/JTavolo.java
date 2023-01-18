@@ -15,7 +15,7 @@ public class JTavolo extends Thread {
     Logger logger;
     FileHandler fileHandler;  
  */
-    private ThreadGiocatore[] GiocatoriAlTavolo = new ThreadGiocatore[7];
+    public ThreadGiocatore[] GiocatoriAlTavolo = new ThreadGiocatore[7];
     int numGiocatoriSeduti = 0;
 
     public JTavolo(String nome) {
@@ -60,7 +60,7 @@ public class JTavolo extends Thread {
                         }
                     }
                 }
-                BroadcastMsg(GiocatoriAlTavolo, "The game will start in " + timer-- + "s." );
+                BroadcastMsg(GiocatoriAlTavolo, "timer;" + timer-- + "s;" );
                 try {
                     sleep(1000); // sleep for 1 second
                 } catch (InterruptedException e) {}
@@ -81,7 +81,7 @@ public class JTavolo extends Thread {
                     }
                 }
                 //logger.info("The game started with these players: " + getNomiGiocatori());
-                BroadcastMsg(GiocatoriAlTavolo, "The game started with these players: " + getNomiGiocatori());
+                //BroadcastMsg(GiocatoriAlTavolo, "The game started with these players: " + getNomiGiocatori());
                 
                 //Start a New Game
                 Game game = new Game(this, GiocatoriAttivi );
@@ -122,7 +122,7 @@ public class JTavolo extends Thread {
     public synchronized boolean AddGiocatore(JConnect connGiocatore){
         boolean b = false;
         
-        if(numGiocatoriSeduti < 7){
+        if(numGiocatoriSeduti < 7 && !isInGame){
             int pos = getPrimaPosLibera();
 
             JGiocatore g = new JGiocatore(connGiocatore, pos);
@@ -134,6 +134,7 @@ public class JTavolo extends Thread {
 
             //logger.info("Giocatore ["+ connGiocatore.getId()+"] aggiunto al tavolo in posizione ("+ pos +")");
             b = true;
+            BroadcastMsg(getStringNomiGiocatori());
         }
 
         return b;
@@ -155,6 +156,7 @@ public class JTavolo extends Thread {
         GiocatoriAlTavolo[pos] = null;
         numGiocatoriSeduti--;
         //logger.info("Giocatore ["+ tg.getName() +"] rimosso dal tavolo in posizione ("+ pos +")");
+        BroadcastMsg(getStringNomiGiocatori());
         ConnectionManager.getInstance().AddClient(tg.giocatore.connessioneClient);
     }
 
@@ -178,6 +180,18 @@ public class JTavolo extends Thread {
         return listaDiRisposta;
     }
 
+    public String getStringNomiGiocatori() {
+        String stringRisposta = "Nomi;";
+
+        for (int i = 0; i < GiocatoriAlTavolo.length; i++) {
+            if(GiocatoriAlTavolo[i] != null)
+                stringRisposta += GiocatoriAlTavolo[i].giocatore.getName() +";";
+            else
+                stringRisposta += ";";
+        }
+        return stringRisposta;
+    }
+
     void BroadcastMsg(List<ThreadGiocatore> BroadcastList, String msg){
         if (BroadcastList.size() > 0) {
             for (ThreadGiocatore TGiocatore : BroadcastList) {
@@ -198,5 +212,9 @@ public class JTavolo extends Thread {
             if (TGiocatore != null)
                 TGiocatore.SendMsg(msg);
         }
+    }
+
+    public void Disconnect(ThreadGiocatore threadGiocatore) {
+        RemoveGiocatore(threadGiocatore);
     }
 }

@@ -17,19 +17,27 @@ public class TableManager : MonoBehaviour
     
     [SerializeField] TextMeshProUGUI tavolo3;
     [SerializeField] TextMeshProUGUI StatoTavolo3;
-    
 
     void Awake(){
         nameText.text = "Giocatore: " + TCPClient.Instance.getName();
         TCPClient.Instance.setTm(this);
-        //TCPClient.Instance.InviaMessaggio("getInfoTavoli");
+        TCPClient.Instance.InviaMessaggio("getInfoTavoli");
     }
 
 
 
-    public void Play()
+    void Start()
     {
-        
+        StartCoroutine(SendMessage());
+    }
+
+    IEnumerator SendMessage()
+    {
+        while (true)
+        {
+            TCPClient.Instance.InviaMessaggio("getInfoTavoli");
+            yield return new WaitForSeconds(5f);
+        }
     }
 
     public void Quit()

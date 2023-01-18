@@ -40,4 +40,8 @@ public class JDealer {
 
         return isBust;
     }
+
+    public boolean Blackjack() {
+        return PuntiInMano() == 21;
+    }
 }

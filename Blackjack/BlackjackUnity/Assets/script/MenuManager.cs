@@ -22,7 +22,7 @@ public class MenuManager : MonoBehaviour
         {
             if (TCPClient.Instance.ConnectToServer(name))
             {
-                SceneManager.LoadScene(1);
+                //SceneManager.LoadScene(1);
             }
             else
             {

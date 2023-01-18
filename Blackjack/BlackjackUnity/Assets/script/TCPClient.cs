@@ -31,6 +31,7 @@ public class TCPClient : MonoBehaviour
     //Connection to Tables
     bool connectedToTable = false;
     string tavolo = "";
+    bool ChangeSceneTavoli = false;
 
 
     //Reference al Table manager per l'update dell'UI
@@ -39,7 +40,7 @@ public class TCPClient : MonoBehaviour
     //Reference al GameManager per l'update del campo di gioco
     GameManager gm;
     bool UpdateTable;
-    string[] UpdateTableArgs = new string[4];
+    string[] UpdateTableArgs = new string[9];
 
     // Singleton
     public static TCPClient Instance { get; private set; }
@@ -70,8 +71,6 @@ public class TCPClient : MonoBehaviour
             client.Connect("localhost", port);
             stream = client.GetStream();
             StartReceiving();
-            //InviaMessaggio("Hello, server!");
-            // Subscribe to the quitting event
             Application.quitting += OnApplicationQuit;
 
             isConnected = true;
@@ -88,6 +87,12 @@ public class TCPClient : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (ChangeSceneTavoli)
+        {
+            SceneManager.LoadScene(1);
+            ChangeSceneTavoli = false;
+        }
+
         if (UpdateUI)
         {
             string[] tavolo1 = UpdateUIStrings[1].Split("-");
@@ -129,8 +134,30 @@ public class TCPClient : MonoBehaviour
             {
                 gm.endGame();
             }
+            else if (UpdateTableArgs[0] == "Nomi")
+            {
+                gm.UpdateName(UpdateTableArgs);
+            }
+            else if (UpdateTableArgs[0] == "bust")
+            {
+                gm.Bust(UpdateTableArgs[1]);
+            }
+            else if (UpdateTableArgs[0] == "blackjack")
+            {
+                gm.BlackJack(UpdateTableArgs[1]);
+            }
+            else if (UpdateTableArgs[0] == "results")
+            {
+                gm.Results(UpdateTableArgs);
+            }
+            else if (UpdateTableArgs[0] == "requestMove")
+            {
+                gm.requestMove();
+            }
+                
             UpdateTable = false;
         }
+
 
     }
 
@@ -193,7 +220,10 @@ public class TCPClient : MonoBehaviour
         {
             case "getName":
                 InviaMessaggio(nome);
-                InviaMessaggio("getInfoTavoli");
+                break;
+
+            case "ok":
+                ChangeSceneTavoli = true;
                 break;
 
             case "StatoTavolo":
@@ -227,8 +257,50 @@ public class TCPClient : MonoBehaviour
                 UpdateTableArgs[0] = datiSeparati[0];
                 UpdateTable = true;
                 break;
+
+            case "Nomi":
+                UpdateTableArgs[0] = datiSeparati[0];
+                UpdateTableArgs[1] = datiSeparati[1];
+                UpdateTableArgs[2] = datiSeparati[2];
+                UpdateTableArgs[3] = datiSeparati[3];
+                UpdateTableArgs[4] = datiSeparati[4];
+                UpdateTableArgs[5] = datiSeparati[5];
+                UpdateTableArgs[6] = datiSeparati[6];
+                UpdateTableArgs[7] = datiSeparati[7];
+                UpdateTable = true;
+                break;
+            
+            case "results":
+                UpdateTableArgs[0] = datiSeparati[0];
+                UpdateTableArgs[1] = datiSeparati[1];
+                UpdateTableArgs[2] = datiSeparati[2];
+                UpdateTableArgs[3] = datiSeparati[3];
+                UpdateTableArgs[4] = datiSeparati[4];
+                UpdateTableArgs[5] = datiSeparati[5];
+                UpdateTableArgs[6] = datiSeparati[6];
+                UpdateTableArgs[7] = datiSeparati[7];
+                UpdateTable = true;
+                break;
+
+            case "bust":
+                UpdateTableArgs[0] = datiSeparati[0];
+                UpdateTableArgs[1] = datiSeparati[2];
+                UpdateTable = true;
+                break;
+            
+            case "blackjack":
+                UpdateTableArgs[0] = datiSeparati[0];
+                UpdateTableArgs[1] = datiSeparati[2];
+                UpdateTable = true;
+                break;
+
+            case "requestMove":
+                UpdateTableArgs[0] = datiSeparati[0];
+                UpdateTable = true;
+                break;
+
             default:
-                Debug.Log("messaggio non processato: [" + data + "]");
+                Debug.Log("messaggio non riconosciuto:" + data);
                 break;
         }
     }

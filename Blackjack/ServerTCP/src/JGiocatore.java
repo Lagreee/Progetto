@@ -1,11 +1,14 @@
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class JGiocatore {  
     JConnect connessioneClient;
     List<String> Mano = new ArrayList<String>();
     int posizione = -1;
+    boolean disconnected = false;
 
     public JGiocatore(JConnect connessioneClient, int posizione){
         this.connessioneClient = connessioneClient;
@@ -26,7 +29,9 @@ public class JGiocatore {
         try {
             messaggio = connessioneClient.in.readLine();
         } catch (IOException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
+            messaggio = "stay";
+            disconnected = true;
         }
 
         return messaggio;
@@ -52,7 +57,7 @@ public class JGiocatore {
         boolean wantsToHit = false;
         String risposta = "null";
         
-        connessioneClient.SendMsg("requestMove");
+        connessioneClient.SendMsg("requestMove;");
         
         risposta = AttendiRispota();
 
@@ -85,5 +90,15 @@ public class JGiocatore {
 
     public int getPosizione() {
         return posizione;
+    }
+
+    public boolean Blackjack() {
+        boolean b = false;
+
+        if (PuntiInMano() == 21) {
+            b = true;
+        }
+
+        return b;
     }
 }

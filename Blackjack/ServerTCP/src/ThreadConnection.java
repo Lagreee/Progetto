@@ -9,12 +9,13 @@ public class ThreadConnection extends Thread {
     JTavolo tavolo;
     boolean isActive = true;
 
-    final String HELP_STRING = "I metodi disponibili sono:" +
+    /*final String HELP_STRING = "I metodi disponibili sono:" +
             "\n - 'getInfoTavoli' -> Ritorna le informazione relative al numero di giocatori presenti ai tavoli" +
             "\n - 'getInfoTavoliCmp' -> Ritorna le informazione relative al numero di giocatori presenti ai tavoli" +
             "\n - 'getTableNameList' -> Ritorna le informazione relative ai nomi dei tavoli" +
             "\n - 'connectToTable', Args[0] = 'nometavolo' -> Prova a connetterti al tavolo desiderato" +
             "\n - 'quit' -> Disconnetti il client";
+     */
 
     public ThreadConnection(JConnect connessioneClient) {
         this.connessioneClient = connessioneClient;
@@ -48,7 +49,7 @@ public class ThreadConnection extends Thread {
             } while (name.equals(""));
             connessioneClient.id = name;
 
-            out.println("NomeClient: " + name);
+            out.println("ok;");
         }
 
         //out.println(HELP_STRING);
@@ -101,9 +102,9 @@ public class ThreadConnection extends Thread {
                             isActive = false;
                             break;
 
-                        case "help":
-                            out.println(HELP_STRING);
-                            break;
+                        //case "help":
+                        //    out.println(HELP_STRING);
+                        //    break;
 
                         default:
                             out.println("Invalid request");
