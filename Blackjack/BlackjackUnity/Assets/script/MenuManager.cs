@@ -6,8 +6,10 @@ using UnityEngine.SceneManagement;
 public class MenuManager : MonoBehaviour
 {
     [SerializeField] TextMeshProUGUI nameText;
+    [SerializeField] TextMeshProUGUI IPText;
     [SerializeField] TextMeshProUGUI errorText;
     private string baseName;
+    string IP;
 
     private void Start()
     {
@@ -18,9 +20,11 @@ public class MenuManager : MonoBehaviour
     public void Play()
     {
         name = nameText.text;
+        IP = IPText.text;
+        IP = IP.Remove(IP.Length - 1, 1);
         if (!string.Equals(name, baseName))
         {
-            if (TCPClient.Instance.ConnectToServer(name))
+            if (TCPClient.Instance.ConnectToServer(name, IP))
             {
                 //SceneManager.LoadScene(1);
             }

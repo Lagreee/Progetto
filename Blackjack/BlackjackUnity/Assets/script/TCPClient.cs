@@ -63,12 +63,12 @@ public class TCPClient : MonoBehaviour
 
 
     // Use this for initialization 	
-    public bool ConnectToServer(string name)
+    public bool ConnectToServer(string name, string ip)
     {
         try
         {
             client = new TcpClient();
-            client.Connect("localhost", port);
+            client.Connect(ip, port);
             stream = client.GetStream();
             StartReceiving();
             Application.quitting += OnApplicationQuit;
